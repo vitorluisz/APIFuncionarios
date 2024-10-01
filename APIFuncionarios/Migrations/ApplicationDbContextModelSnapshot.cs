@@ -33,8 +33,8 @@ namespace APIFuncionarios.Migrations
                     b.Property<bool>("Ativo")
                         .HasColumnType("bit");
 
-                    b.Property<int>("DataDeAlteracao")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("DataDeAlteracao")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DataDeCriacao")
                         .HasColumnType("datetime2");
@@ -42,11 +42,11 @@ namespace APIFuncionarios.Migrations
                     b.Property<int>("Departamento")
                         .HasColumnType("int");
 
-                    b.Property<int>("Nome")
-                        .HasColumnType("int");
+                    b.Property<string>("Nome")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Sobrenome")
-                        .HasColumnType("int");
+                    b.Property<string>("Sobrenome")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Turno")
                         .HasColumnType("int");

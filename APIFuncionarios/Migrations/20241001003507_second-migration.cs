@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace APIFuncionarios.Migrations
 {
     /// <inheritdoc />
-    public partial class firstmigration : Migration
+    public partial class secondmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,13 +17,13 @@ namespace APIFuncionarios.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<int>(type: "int", nullable: false),
-                    Sobrenome = table.Column<int>(type: "int", nullable: false),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Sobrenome = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Departamento = table.Column<int>(type: "int", nullable: false),
                     Ativo = table.Column<bool>(type: "bit", nullable: false),
                     Turno = table.Column<int>(type: "int", nullable: false),
                     DataDeCriacao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataDeAlteracao = table.Column<int>(type: "int", nullable: false)
+                    DataDeAlteracao = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
