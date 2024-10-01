@@ -14,6 +14,7 @@ namespace APIFuncionarios.Model
         public TurnoEnum Turno { get; set; }
         public DateTime DataDeCriacao { get; set; } = DateTime.Now;
         public DateTime DataDeAlteracao { get; set; }
+        public PagamentosModel? Pagamento { get; set; }
 
     }
 }

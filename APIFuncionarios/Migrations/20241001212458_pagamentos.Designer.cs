@@ -4,6 +4,7 @@ using APIFuncionarios.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APIFuncionarios.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241001212458_pagamentos")]
+    partial class pagamentos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,11 +70,20 @@ namespace APIFuncionarios.Migrations
                     b.Property<DateTime>("DataDeAlteracaoSalario")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Departamento")
+                        .HasColumnType("int");
+
                     b.Property<int>("IdFuncionario")
                         .HasColumnType("int");
 
+                    b.Property<string>("Nome")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("Salario")
                         .HasColumnType("float");
+
+                    b.Property<string>("Sobrenome")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("ValeAlimentacao")
                         .HasColumnType("float");
@@ -81,26 +93,7 @@ namespace APIFuncionarios.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdFuncionario")
-                        .IsUnique();
-
                     b.ToTable("Pagamentos");
-                });
-
-            modelBuilder.Entity("APIFuncionarios.Model.PagamentosModel", b =>
-                {
-                    b.HasOne("APIFuncionarios.Model.FuncionarioModel", "Funcionario")
-                        .WithOne("Pagamento")
-                        .HasForeignKey("APIFuncionarios.Model.PagamentosModel", "IdFuncionario")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Funcionario");
-                });
-
-            modelBuilder.Entity("APIFuncionarios.Model.FuncionarioModel", b =>
-                {
-                    b.Navigation("Pagamento");
                 });
 #pragma warning restore 612, 618
         }
