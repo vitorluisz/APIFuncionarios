@@ -1,5 +1,6 @@
 ﻿using APIFuncionarios.DataContext;
 using APIFuncionarios.Dto.Pagamentos;
+using APIFuncionarios.Logs;
 using APIFuncionarios.Migrations;
 using APIFuncionarios.Model;
 using Microsoft.EntityFrameworkCore;
@@ -46,6 +47,7 @@ namespace APIFuncionarios.Service.FuncionarioService
                 _db.Pagamentos.Update(pagamentoNovo);
                 await _db.SaveChangesAsync();
 
+                Log.LogToFile("Criar Funcionário - Sucesso", "Criação de funcionário realizada com sucesso");
                 serviceResponse.Dados = _db.Funcionarios.ToList();
 
                 if (serviceResponse.Dados.Count == 0)
@@ -57,6 +59,7 @@ namespace APIFuncionarios.Service.FuncionarioService
             {
                 serviceResponse.Mensagem = ex.Message;
                 serviceResponse.Sucesso = false;
+                Log.LogToFile("Criar Funcionário - Fracasso", ex.Message);
             }
 
             return serviceResponse;
@@ -80,12 +83,14 @@ namespace APIFuncionarios.Service.FuncionarioService
                 _db.Funcionarios.Remove(funcionario);
                 await _db.SaveChangesAsync();
 
+                Log.LogToFile("Deletar Funcionário - Sucesso", "Remoção de funcionário realizada com sucesso");
                 serviceResponse.Dados = _db.Funcionarios.ToList();
             }
             catch (Exception ex)
             {
                 serviceResponse.Mensagem = ex.Message;
                 serviceResponse.Sucesso = false;
+                Log.LogToFile("Deletar Funcionário - Fracasso", ex.Message);
             }
 
             return serviceResponse;
@@ -106,11 +111,13 @@ namespace APIFuncionarios.Service.FuncionarioService
                     serviceResponse.Mensagem = "Usuário não localizado.";
                     serviceResponse.Sucesso = false;
                 }
+                Log.LogToFile("Listar Funcionário - Sucesso", "Funcionário listado com sucesso");
             }
             catch (Exception ex)
             {
                 serviceResponse.Mensagem = ex.Message;
                 serviceResponse.Sucesso = false;
+                Log.LogToFile("Listar Funcionário - Fracasso", ex.Message);
             }
 
             return serviceResponse;
@@ -128,11 +135,13 @@ namespace APIFuncionarios.Service.FuncionarioService
                 {
                     serviceResponse.Mensagem = "Sem dados encontrados.";
                 }
+                Log.LogToFile("Listar Funcionários - Sucesso", "Funcionários listados com sucesso");
             }
             catch (Exception ex)
             {
                 serviceResponse.Mensagem = ex.Message;
                 serviceResponse.Sucesso = false;
+                Log.LogToFile("Listar Funcionários - Fracasso", ex.Message);
             }
 
             return serviceResponse;
@@ -159,13 +168,14 @@ namespace APIFuncionarios.Service.FuncionarioService
                 _db.Funcionarios.Update(funcionario);
                 await _db.SaveChangesAsync();
 
+                Log.LogToFile("Inativar Funcionário - Sucesso", "Funcionário inativado com sucesso");
                 serviceResponse.Dados = _db.Funcionarios.ToList();
-
             }
             catch (Exception ex)
             {
                 serviceResponse.Mensagem = ex.Message;
                 serviceResponse.Sucesso = false;
+                Log.LogToFile("Inativar Funcionário - Fracasso", ex.Message);
             }
 
             return serviceResponse;
@@ -191,13 +201,14 @@ namespace APIFuncionarios.Service.FuncionarioService
                 _db.Funcionarios.Update(editadoFuncionario);
                 await _db.SaveChangesAsync();
 
+                Log.LogToFile("Editar Funcionário - Sucesso", "Funcionário editado com sucesso");
                 serviceResponse.Dados = _db.Funcionarios.ToList();
-
             }
             catch (Exception ex)
             {
                 serviceResponse.Mensagem = ex.Message;
                 serviceResponse.Sucesso = false;
+                Log.LogToFile("Editar Funcionário - Fracasso", ex.Message);
             }
 
             return serviceResponse;

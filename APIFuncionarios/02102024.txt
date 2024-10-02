@@ -1,0 +1,24 @@
+Log:
+02/10/2024 12:11:06
+Título da Mensagem: Listar Chamados - Sucesso
+Mensagem: Chamados listados com sucesso
+--------------------------
+
+Log:
+02/10/2024 12:11:14
+Título da Mensagem: Listar Funcionários - Sucesso
+Mensagem: Funcionários listados com sucesso
+--------------------------
+
+Log:
+02/10/2024 12:11:23
+Título da Mensagem: Listar Pagamentos - Sucesso
+Mensagem: Pagamentos listados com sucesso
+--------------------------
+
+Log:
+02/10/2024 12:11:46
+Título da Mensagem: Listar Pagamentos - Sucesso
+Mensagem: Pagamentos listados com sucesso
+--------------------------
+

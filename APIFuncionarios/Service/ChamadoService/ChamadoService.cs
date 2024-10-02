@@ -1,5 +1,6 @@
 ﻿using APIFuncionarios.DataContext;
 using APIFuncionarios.Dto.Chamado;
+using APIFuncionarios.Logs;
 using APIFuncionarios.Migrations;
 using APIFuncionarios.Model;
 using Microsoft.EntityFrameworkCore;
@@ -53,11 +54,13 @@ namespace APIFuncionarios.Service.ChamadoService
                 await _db.SaveChangesAsync();
 
                 serviceResponse.Dados = _db.Chamados.ToList();
+                Log.LogToFile("Criar Chamado - Sucesso", "Criação de chamado realizada com sucesso");
             }
             catch (Exception ex)
             {
                 serviceResponse.Mensagem = ex.Message;
                 serviceResponse.Sucesso = false;
+                Log.LogToFile("Criar Chamado - Fracasso", ex.Message);
             }
 
             return serviceResponse;
@@ -77,7 +80,7 @@ namespace APIFuncionarios.Service.ChamadoService
                     serviceResponse.Mensagem = "Chamado não existe.";
                     serviceResponse.Sucesso = false;
                 }
-
+                Log.LogToFile("Deletar Chamado - Sucesso", "Remoção de chamado realizada com sucesso");
                 _db.Chamados.Remove(chamado);
                 await _db.SaveChangesAsync();
 
@@ -87,6 +90,7 @@ namespace APIFuncionarios.Service.ChamadoService
             {
                 serviceResponse.Mensagem = ex.Message;
                 serviceResponse.Sucesso = false;
+                Log.LogToFile("Deletar Chamado - Fracasso", ex.Message);
             }
 
             return serviceResponse;
@@ -104,11 +108,13 @@ namespace APIFuncionarios.Service.ChamadoService
                 {
                     serviceResponse.Mensagem = "Sem dados encontrados.";
                 }
+                Log.LogToFile("Listar Chamados - Sucesso", "Chamados listados com sucesso");
             }
             catch (Exception ex)
             {
                 serviceResponse.Mensagem = ex.Message;
                 serviceResponse.Sucesso = false;
+                Log.LogToFile("Listar Chamados - Fracasso", ex.Message);
             }
 
             return serviceResponse;
@@ -129,11 +135,13 @@ namespace APIFuncionarios.Service.ChamadoService
                     serviceResponse.Mensagem = "Chamado não localizado.";
                     serviceResponse.Sucesso = false;
                 }
+                Log.LogToFile("Listar Chamado - Sucesso", "Chamado listado com sucesso");
             }
             catch (Exception ex)
             {
                 serviceResponse.Mensagem = ex.Message;
                 serviceResponse.Sucesso = false;
+                Log.LogToFile("Listar Chamado - Fracasso", ex.Message);
             }
 
             return serviceResponse;
@@ -180,11 +188,14 @@ namespace APIFuncionarios.Service.ChamadoService
 
                 _db.Chamados.Update(chamadoFinalizado);
                 await _db.SaveChangesAsync();
+
+                Log.LogToFile("Resolver Chamado - Sucesso", "Resolução de chamado realizada com sucesso");
             }
             catch (Exception ex)
             {
                 serviceResponse.Mensagem = ex.Message;
                 serviceResponse.Sucesso = false;
+                Log.LogToFile("Resolver Chamado - Fracasso", ex.Message);
             }
 
             return serviceResponse;

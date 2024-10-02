@@ -1,5 +1,6 @@
 ﻿using APIFuncionarios.DataContext;
 using APIFuncionarios.Dto.Pagamentos;
+using APIFuncionarios.Logs;
 using APIFuncionarios.Migrations;
 using APIFuncionarios.Model;
 using Microsoft.EntityFrameworkCore;
@@ -35,12 +36,14 @@ namespace APIFuncionarios.Service.PagamentosService
                 _db.Pagamentos.RemoveRange(pagamentos);
                 await _db.SaveChangesAsync();
 
+                Log.LogToFile("Deletar Pagamento - Sucesso", "Pagamento removido com sucesso");
                 serviceResponse.Dados = _db.Pagamentos.ToList();
             }
             catch (Exception ex)
             {
                 serviceResponse.Mensagem = ex.Message;
                 serviceResponse.Sucesso = false;
+                Log.LogToFile("Deletar Pagamento - Fracasso", ex.Message);
             }
 
             return serviceResponse;
@@ -60,12 +63,13 @@ namespace APIFuncionarios.Service.PagamentosService
                     serviceResponse.Dados = null;
                     serviceResponse.Sucesso = false;
                 }
-
+                Log.LogToFile("Listar Pagamentos - Sucesso", "Pagamentos listados com sucesso");
             }
             catch (Exception ex)
             {
                 serviceResponse.Mensagem = ex.Message;
                 serviceResponse.Sucesso = false;
+                Log.LogToFile("Listar Pagamentos - Fracasso", ex.Message);
             }
 
             return serviceResponse;
@@ -86,12 +90,13 @@ namespace APIFuncionarios.Service.PagamentosService
                     serviceResponse.Dados = null;
                     serviceResponse.Sucesso = false;
                 }
-
+                Log.LogToFile("Listar Pagamento - Sucesso", "Pagamento listados com sucesso");
             }
             catch (Exception ex)
             {
                 serviceResponse.Mensagem = ex.Message;
                 serviceResponse.Sucesso = false;
+                Log.LogToFile("Listar Pagamento - Fracasso", ex.Message);
             }
 
             return serviceResponse;
@@ -133,6 +138,7 @@ namespace APIFuncionarios.Service.PagamentosService
                 funcionario.Pagamento = pagamentoNovo;
 
                 serviceResponse.Dados = _db.Pagamentos.ToList();
+                Log.LogToFile("Editar Pagamento - Sucesso", "Pagamento editado com sucesso");
 
                 var pagamentos = _db.Pagamentos.FirstOrDefault(p => p.IdFuncionario == pagamento.IdFuncionario);
 
@@ -144,6 +150,7 @@ namespace APIFuncionarios.Service.PagamentosService
             {
                 serviceResponse.Mensagem = ex.Message;
                 serviceResponse.Sucesso = false;
+                Log.LogToFile("Editar Pagamento - Fracasso", ex.Message);
             }
 
             return serviceResponse;
