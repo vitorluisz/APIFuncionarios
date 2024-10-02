@@ -21,7 +21,8 @@ namespace APIFuncionarios.Service.PagamentosService
 
             try
             {
-                var pagamentos = _db.Pagamentos.FirstOrDefault(p => p.Funcionario.Id == id);
+                var pagamentos = _db.Pagamentos.FirstOrDefault(p => p.IdFuncionario == id);
+                var funcionario = await _db.Funcionarios.FirstOrDefaultAsync(x => x.Id == id);
 
                 if (pagamentos == null)
                 {
@@ -31,7 +32,7 @@ namespace APIFuncionarios.Service.PagamentosService
                     return serviceResponse;
                 }
 
-                _db.Pagamentos.Remove(pagamentos);
+                _db.Pagamentos.RemoveRange(pagamentos);
                 await _db.SaveChangesAsync();
 
                 serviceResponse.Dados = _db.Pagamentos.ToList();
@@ -76,7 +77,7 @@ namespace APIFuncionarios.Service.PagamentosService
 
             try
             {
-                PagamentosModel pagamento = _db.Pagamentos.Where(p => p.Funcionario.Id == id).ToList().FirstOrDefault();
+                PagamentosModel pagamento = _db.Pagamentos.Where(p => p.IdFuncionario == id).ToList().FirstOrDefault();
                 serviceResponse.Dados = pagamento;
 
                 if (pagamento == null)
@@ -112,39 +113,30 @@ namespace APIFuncionarios.Service.PagamentosService
 
                 var funcionario = await _db.Funcionarios.FirstOrDefaultAsync(x => x.Id == id);
 
-                if (funcionario != null)
-                {
-                    var pagamentoNovo = new PagamentosModel()
-                    {
-                        Salario = pagamento.Salario,
-                        ValeTransporte = pagamento.ValeTransporte,
-                        ValeAlimentacao = pagamento.ValeAlimentacao,
-                        DataDeAlteracaoSalario = pagamento.DataDeAlteracaoSalario,
-                        Funcionario = funcionario
-                    };
-
-                    funcionario.Pagamento = pagamentoNovo;
-
-                    var pagamentos = _db.Pagamentos.FirstOrDefault(p => p.Funcionario.Id == id);
-
-                    if (pagamentos == null)
-                    {
-                        _db.Pagamentos.Add(pagamentoNovo);
-                        _db.Funcionarios.Update(funcionario);
-                        await _db.SaveChangesAsync();
-                    }
-                    else
-                    {
-                        _db.Pagamentos.Update(pagamentoNovo);
-                        _db.Funcionarios.Update(funcionario);
-                        await _db.SaveChangesAsync();
-                    }
-                }else
+                if (funcionario == null)
                 {
                     serviceResponse.Mensagem = "Funcionario não existe.";
+                    return serviceResponse;
                 }
 
+                var pagamentoNovo = new PagamentosModel()
+                {
+                    Salario = pagamento.Salario,
+                    ValeTransporte = pagamento.ValeTransporte,
+                    ValeAlimentacao = pagamento.ValeAlimentacao,
+                    DataDeAlteracaoSalario = DateTime.Now,
+                    IdFuncionario = funcionario.Id
+                };
+
+                funcionario.Pagamento = pagamentoNovo;
+
                 serviceResponse.Dados = _db.Pagamentos.ToList();
+
+                var pagamentos = _db.Pagamentos.FirstOrDefault(p => p.IdFuncionario == id);
+
+                _db.Pagamentos.Update(pagamentoNovo);
+                _db.Funcionarios.Update(funcionario);
+                await _db.SaveChangesAsync();
             }
             catch (Exception ex)
             {

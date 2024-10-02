@@ -1,4 +1,6 @@
 ﻿using APIFuncionarios.DataContext;
+using APIFuncionarios.Dto.Pagamentos;
+using APIFuncionarios.Migrations;
 using APIFuncionarios.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +30,20 @@ namespace APIFuncionarios.Service.FuncionarioService
                 }
 
                 _db.Funcionarios.Add(novoFuncionario);
+                await _db.SaveChangesAsync();
+
+                novoFuncionario.Pagamento.IdFuncionario = novoFuncionario.Id;
+
+                var pagamentoNovo = new PagamentosModel()
+                {
+                    Salario = novoFuncionario.Pagamento.Salario,
+                    ValeTransporte = novoFuncionario.Pagamento.ValeTransporte,
+                    ValeAlimentacao = novoFuncionario.Pagamento.ValeAlimentacao,
+                    DataDeAlteracaoSalario = DateTime.Now,
+                    IdFuncionario = novoFuncionario.Pagamento.Id
+                };
+
+                _db.Pagamentos.Update(pagamentoNovo);
                 await _db.SaveChangesAsync();
 
                 serviceResponse.Dados = _db.Funcionarios.ToList();
