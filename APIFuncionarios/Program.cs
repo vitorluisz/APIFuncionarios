@@ -1,4 +1,5 @@
 using APIFuncionarios.DataContext;
+using APIFuncionarios.Service.ChamadoService;
 using APIFuncionarios.Service.FuncionarioService;
 using APIFuncionarios.Service.PagamentosService;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,7 @@ namespace APIFuncionarios
 
             builder.Services.AddScoped<IFuncionarioInterface,FuncionarioService>();
             builder.Services.AddScoped<IPagamentosInterface, PagamentosService>();
+            builder.Services.AddScoped<IChamadoInterface, ChamadoService>();
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {

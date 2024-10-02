@@ -12,6 +12,7 @@ namespace APIFuncionarios.DataContext
 
         public DbSet<FuncionarioModel> Funcionarios { get; set; }
         public DbSet<PagamentosModel> Pagamentos { get; set; }
+        public DbSet<ChamadoModel> Chamados { get; set; }
 
     }
 }

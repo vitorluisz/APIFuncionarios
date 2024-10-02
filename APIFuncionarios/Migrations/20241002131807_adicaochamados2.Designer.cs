@@ -4,6 +4,7 @@ using APIFuncionarios.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APIFuncionarios.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241002131807_adicaochamados2")]
+    partial class adicaochamados2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,16 +57,20 @@ namespace APIFuncionarios.Migrations
                     b.Property<int>("IdFuncionarioRecebedor")
                         .HasColumnType("int");
 
-                    b.Property<string>("NomeFuncionarioPedinte")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("NomeFuncionarioPedinteId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("NomeFuncionarioRecebedor")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("NomeFuncionarioRecebedorId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Título")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("NomeFuncionarioPedinteId");
+
+                    b.HasIndex("NomeFuncionarioRecebedorId");
 
                     b.ToTable("Chamados");
                 });
@@ -78,9 +85,6 @@ namespace APIFuncionarios.Migrations
 
                     b.Property<bool>("Ativo")
                         .HasColumnType("bit");
-
-                    b.Property<int?>("ChamadosId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("DataDeAlteracao")
                         .HasColumnType("datetime2");
@@ -104,8 +108,6 @@ namespace APIFuncionarios.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ChamadosId");
 
                     b.HasIndex("PagamentoId");
 
@@ -146,17 +148,26 @@ namespace APIFuncionarios.Migrations
                     b.ToTable("Pagamentos");
                 });
 
+            modelBuilder.Entity("APIFuncionarios.Model.ChamadoModel", b =>
+                {
+                    b.HasOne("APIFuncionarios.Model.FuncionarioModel", "NomeFuncionarioPedinte")
+                        .WithMany()
+                        .HasForeignKey("NomeFuncionarioPedinteId");
+
+                    b.HasOne("APIFuncionarios.Model.FuncionarioModel", "NomeFuncionarioRecebedor")
+                        .WithMany()
+                        .HasForeignKey("NomeFuncionarioRecebedorId");
+
+                    b.Navigation("NomeFuncionarioPedinte");
+
+                    b.Navigation("NomeFuncionarioRecebedor");
+                });
+
             modelBuilder.Entity("APIFuncionarios.Model.FuncionarioModel", b =>
                 {
-                    b.HasOne("APIFuncionarios.Model.ChamadoModel", "Chamados")
-                        .WithMany()
-                        .HasForeignKey("ChamadosId");
-
                     b.HasOne("APIFuncionarios.Model.PagamentosModel", "Pagamento")
                         .WithMany()
                         .HasForeignKey("PagamentoId");
-
-                    b.Navigation("Chamados");
 
                     b.Navigation("Pagamento");
                 });

@@ -97,7 +97,7 @@ namespace APIFuncionarios.Service.PagamentosService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<PagamentosModel>>> UpdatePagamentos(int id, PagamentosUpdateDto pagamento)
+        public async Task<ServiceResponse<List<PagamentosModel>>> UpdatePagamentos(PagamentosUpdateDto pagamento)
         {
             ServiceResponse<List<PagamentosModel>> serviceResponse = new ServiceResponse<List<PagamentosModel>>();
 
@@ -111,7 +111,7 @@ namespace APIFuncionarios.Service.PagamentosService
                     return serviceResponse;
                 }
 
-                var funcionario = await _db.Funcionarios.FirstOrDefaultAsync(x => x.Id == id);
+                var funcionario = await _db.Funcionarios.FirstOrDefaultAsync(x => x.Id == pagamento.IdFuncionario);
 
                 if (funcionario == null)
                 {
@@ -125,14 +125,16 @@ namespace APIFuncionarios.Service.PagamentosService
                     ValeTransporte = pagamento.ValeTransporte,
                     ValeAlimentacao = pagamento.ValeAlimentacao,
                     DataDeAlteracaoSalario = DateTime.Now,
-                    IdFuncionario = funcionario.Id
+                    IdFuncionario = funcionario.Id,
+                    NomeFuncionario = funcionario.Nome,
+                    SobrenomeFuncionario = funcionario.Sobrenome
                 };
 
                 funcionario.Pagamento = pagamentoNovo;
 
                 serviceResponse.Dados = _db.Pagamentos.ToList();
 
-                var pagamentos = _db.Pagamentos.FirstOrDefault(p => p.IdFuncionario == id);
+                var pagamentos = _db.Pagamentos.FirstOrDefault(p => p.IdFuncionario == pagamento.IdFuncionario);
 
                 _db.Pagamentos.Update(pagamentoNovo);
                 _db.Funcionarios.Update(funcionario);

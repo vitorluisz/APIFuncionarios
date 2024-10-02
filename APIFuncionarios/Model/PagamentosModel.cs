@@ -11,6 +11,8 @@ namespace APIFuncionarios.Model
         public int Id { get; set; }
         [ForeignKey("Funcionario")]
         public int IdFuncionario { get; set; }
+        public string? NomeFuncionario { get; set; }
+        public string? SobrenomeFuncionario { get; set; }
         public double Salario { get; set; }
         public double ValeTransporte { get; set; }
         public double ValeAlimentacao { get; set; }

@@ -15,6 +15,7 @@ namespace APIFuncionarios.Model
         public DateTime DataDeCriacao { get; set; } = DateTime.Now;
         public DateTime DataDeAlteracao { get; set; }
         public PagamentosModel? Pagamento { get; set; }
+        public ChamadoModel? Chamados { get; set; }
 
     }
 }

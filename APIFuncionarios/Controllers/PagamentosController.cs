@@ -30,9 +30,9 @@ namespace APIFuncionarios.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<List<PagamentosModel>>>> UpdatePagamentos(int id, PagamentosUpdateDto pagamentoNovo)
+        public async Task<ActionResult<ServiceResponse<List<PagamentosModel>>>> UpdatePagamentos(PagamentosUpdateDto pagamentoNovo)
         {
-            return Ok(await _IPagamentosInterface.UpdatePagamentos(id, pagamentoNovo));
+            return Ok(await _IPagamentosInterface.UpdatePagamentos(pagamentoNovo));
         }
 
         [HttpDelete]

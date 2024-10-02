@@ -7,7 +7,7 @@ namespace APIFuncionarios.Service.PagamentosService
     {
         Task<ServiceResponse<List<PagamentosModel>>> GetPagamentos();
         Task<ServiceResponse<PagamentosModel>> GetPagamentosByIdFuncionario(int id);
-        Task<ServiceResponse<List<PagamentosModel>>> UpdatePagamentos(int id, PagamentosUpdateDto pagamentoNovo);
+        Task<ServiceResponse<List<PagamentosModel>>> UpdatePagamentos(PagamentosUpdateDto pagamentoNovo);
         Task<ServiceResponse<List<PagamentosModel>>> DeletePagamentosByIdFuncionario(int id);
     }
 }
